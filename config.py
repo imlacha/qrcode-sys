@@ -28,6 +28,10 @@ class Settings(BaseSettings):
 
     @property
     def resolved_base_url(self) -> str:
+        #  如果 .env 有設定公開網址（非 localhost），直接使用
+        if self.base_url and "localhost" not in self.base_url:
+            return self.base_url
+
         try:
             import httpx
             # 💡 智慧判斷：連線 ngrok
